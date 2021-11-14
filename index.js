@@ -2,6 +2,13 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const config = require("./config.json");
+const mysql = require("mysql");
+const connection = mysql.createConnection({
+  host: config.database.host,
+  user: config.database.username,
+  password: config.database.password,
+  database: "ctechsmp"
+});
 
 app.enable('verbose errors');
 require('events').EventEmitter.defaultMaxListeners = 0;
