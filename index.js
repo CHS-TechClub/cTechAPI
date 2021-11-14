@@ -16,8 +16,12 @@ require('events').EventEmitter.defaultMaxListeners = 0;
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
+const PlayerData = require("./routes/PlayerData");
+
 app.get("/", (req, res) => {
   res.send("Ok");
 })
+
+app.use("/player", new PlayerData(connection).router);
 
 app.listen(port);
