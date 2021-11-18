@@ -1,6 +1,6 @@
 const express = require("express");
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 25565;
 const config = require("./config.json");
 const mysql = require("mysql");
 const connection = mysql.createConnection({
@@ -22,6 +22,6 @@ app.get("/", (req, res) => {
   res.send("Ok");
 })
 
-app.use("/player", new PlayerData(connection).router);
+app.use("/players", new PlayerData(connection).router);
 
 app.listen(port);

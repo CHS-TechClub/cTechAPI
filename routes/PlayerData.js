@@ -6,7 +6,23 @@ class PlayerData extends Route {
   }
 
   registerRoutes() {
-    this.router.get("/:uuid?", (req, res) => {
+
+    this.router.get("/", (req, res) => {
+      this.conn.query("SELECT * FROM playersData", (err, players) => {
+        if (err) throw err;
+
+        let uuids = [];
+
+        for (const player of players) {
+          uuids.push(player.uuid);
+        }
+
+        res.send(uuids);
+
+      });
+    });
+
+    this.router.get("/get/:uuid?", (req, res) => {
       let uuid = req.params.uuid;
       let data = {
         "uuid": "",
