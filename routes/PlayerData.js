@@ -53,7 +53,7 @@ class PlayerData extends Route {
             if (mysqlError) throw mysqlError;
 
             for (const kill of kills) {
-              data.killed.push(kill.death);
+              data.killed.push(kill.dead);
             }
 
             res.send(data);
