@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const port = process.env.PORT || 8080;
 const config = require("./config.json");
+const https = require("https");
 const mysql = require("mysql");
 const connection = mysql.createConnection({
   host: config.database.host,
@@ -9,6 +10,13 @@ const connection = mysql.createConnection({
   password: config.database.password,
   database: "ctechsmp"
 });
+
+const fs = require('fs');
+
+const options = {
+  key: fs.readFileSync('./security/privatekey.pem'),
+  cert: fs.readFileSync('./security/cert.pem')
+};
 
 //Insecure but the inputs are sql sanitized and we just return raw json...
 app.use(function(req, res, next) {
@@ -32,4 +40,4 @@ app.get("/", (req, res) => {
 app.use("/players", new PlayerData(connection).router);
 app.use("/groups", new GroupData(connection).router);
 
-app.listen(port);
+https.createServer(options, app).listen(port);
